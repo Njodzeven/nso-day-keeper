@@ -11,7 +11,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,18 +29,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      # NOTE: removed configure-pages and upload-pages-artifact steps because
-      # they transitively pulled actions/upload-artifact@v3 which is deprecated
-      # and caused the runner to reject the workflow. The deployment uses
-      # `peaceiris/actions-gh-pages` in the `deploy` job to publish `./dist`.
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -49,3 +37,5 @@ jobs:
           publish_branch: gh-pages
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          force_orphan: true
+          allow_empty_commit: true
