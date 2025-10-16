@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+ #Nso Day Keeper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    A small cultural-calendar web app built with React, TypeScript and Vite that presents the Nso traditional eight-day week, cultural notes, phrases, proverbs and story prompts.
 
-Currently, two official plugins are available:
+    This repository contains the UI and a GitHub Actions workflow that builds the app and deploys the static output (the `dist` folder) to GitHub Pages using the GitHub Actions Pages integration.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    ## Features
 
-## React Compiler
+    - Calendar UI with Nso week day names and cultural content.
+    - Daily phrase and proverb/story prompts for selected days.
+    - Mobile-friendly responsive layout using Tailwind-like utility classes (project ships with PostCSS and Tailwind listed as dev dependencies).
+    - GitHub Actions workflow to build and deploy to GitHub Pages.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+    ## Quick start
 
-## Expanding the ESLint configuration
+    Requirements:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+    - Node.js 18+ (Node 20 recommended)
+    - npm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    Install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+    ```bash
+    npm ci
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    Start the dev server:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+    ```bash
+    npm run dev
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    Open http://localhost:5173 (Vite default) in your browser.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    ## Build
+
+    Create a production build (outputs to `dist`):
+
+    ```bash
+    npm run build
+    ```
+
+    You can preview the production build locally with:
+
+    ```bash
+    npm run preview
+    ```
+
+    ## Deployment (GitHub Pages via Actions)
+
+    This repository includes a workflow at `.github/workflows/deploy.yml` that:
+
+    - Installs dependencies and builds the app (producing the `dist` folder).
+    - Uploads `dist` as a Pages artifact and uses the `actions/deploy-pages` action to publish it.
+
+    Important notes:
+
+    - In your repository Settings → Pages, if you set the "Source" to "GitHub Actions" the workflow will publish automatically when it runs.
+    - The workflow sets the job environment to `github-pages`. Do not attempt to reference step outputs in the job's `environment` block — those outputs are only available after the step runs.
+
+    If you want the workflow to echo the published URL after deployment, the workflow can include a follow-up step that prints `steps.deploy.outputs.page_url`.
+
+    ## Troubleshooting
+
+    - "could not determine executable to run" when running `npx tailwindcss init -p`:
+      - Ensure `tailwindcss` is installed locally (it's included in `devDependencies`). Run `npm ci` or `npm i -D tailwindcss postcss autoprefixer` and then run `npx tailwindcss init -p`.
+
+    - TypeScript unused variable errors during `npm run build`:
+      - Edit the files to remove or use the declared but unused variables. The project typechecks as part of the `build` script (`tsc -b`).
+
+    - Workflow failing with `environment.url` errors:
+      - Job-level environment fields can't reference step outputs. Instead, read `steps.deploy.outputs.page_url` in a subsequent step.
+
+    ## Contributing
+
+    Contributions are welcome. Please open issues or PRs.

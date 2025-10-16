@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Volume2, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, Volume2 } from 'lucide-react';
 
 // Nso Week Days Data
 const NSO_WEEK_DAYS = [
@@ -88,10 +88,9 @@ function getNsoDay(date: Date) {
 
 // Main App Component
 export default function NsoDayKeeper() {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewDate, setViewDate] = useState(new Date());
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const currentNsoDay = getNsoDay(currentDate);
   const selectedNsoDay = getNsoDay(selectedDate);
